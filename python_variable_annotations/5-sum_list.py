@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 """Module compiled with Python3"""
 
-
 from typing import List
+
 
 def sum_list(input_list: List[float]) -> float:
     """
