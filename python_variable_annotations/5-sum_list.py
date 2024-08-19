@@ -2,7 +2,9 @@
 """Module compiled with Python3"""
 
 
-def sum_list(input_list: list[float]) -> float:
+from typing import List
+
+def sum_list(input_list: List[float]) -> float:
     """
     Function used to add a list of floats and return their sum.
     :param input_list: list[float] - The list of floats to be added
