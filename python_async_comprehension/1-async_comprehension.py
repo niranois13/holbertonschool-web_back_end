@@ -12,7 +12,4 @@ async def async_comprehension() -> List[float]:
     It then returns those numbers as a List of floats.
     Returns: List[float] - A list of randomly generated float numbers.
     """
-    lst = []
-    async for _ in async_generator():
-        lst.append(_)
-    return lst
+    return [number async for number in async_generator()]
