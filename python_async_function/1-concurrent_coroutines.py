@@ -23,15 +23,16 @@ async def wait_n(n: int, max_delay: int) -> List[float]:
     return sorted_tasks
 
 
-def bubble_sort(lst: List[float]) -> List[float]:
+def bubble_sort(lst: List[float], epsilon: float = 1e-9) -> List[float]:
     """
     Function that reproduce a Bubble sort algorithm to sort a list.
     :param lst: list - the list to be sorted
+    :param epsilon: float - tolerance value for comparing floats
     Returns: the sorted list
     """
     n = len(lst)
     for i in range(n):
         for j in range(0, n - i - 1):
-            if lst[j] > lst[j + 1]:
+            if (lst[j] - lst[j + 1]) > epsilon:
                 lst[j], lst[j + 1] = lst[j + 1], lst[j]
     return lst
