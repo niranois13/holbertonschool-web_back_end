@@ -15,6 +15,9 @@ def measure_time(n: int, max_delay: int) -> float:
     :param max_delay: int - maximum delay 'wait_random' can wait.
     Returns: float - total elapsed time for 'wait_n' to be executed.
     """
+    if n == 0:
+        return 0.0
+    
     time_start = time()
     asyncio.run(wait_n(n, max_delay))
     time_end = time()

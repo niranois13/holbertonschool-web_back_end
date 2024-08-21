@@ -23,7 +23,7 @@ async def wait_n(n: int, max_delay: int) -> List[float]:
     return sorted_tasks
 
 
-def bubble_sort(lst):
+def bubble_sort(lst: List[float]) -> List[float]:
     """
     Function that reproduce a Bubble sort algorithm to sort a list.
     :param lst: list - the list to be sorted
