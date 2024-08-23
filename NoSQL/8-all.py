@@ -5,6 +5,7 @@
 def list_all(mongo_collection):
     """
     Function that lists all documents in a mongoDB collection
+    :param mongo_collection: the pymongo collection
     """
     list = []
     for document in mongo_collection.find():
