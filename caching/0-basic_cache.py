@@ -1,5 +1,5 @@
 #!/usr/bin/python3
-'''Module  '''
+'''BasicCache Module'''
 
 from base_caching import BaseCaching
 
@@ -27,4 +27,4 @@ class BasicCache(BaseCaching):
         if key not in self.cache_data or key is None:
             return None
 
-        return self.cache_data[key]
+        return self.cache_data.get(key)
