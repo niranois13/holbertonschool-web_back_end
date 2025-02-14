@@ -18,6 +18,7 @@ def filter_datum(
     :param separator: str - elements that separates each fields
     """
     for field in fields:
-        pattern = rf'{re.escape(field)}=[^ {re.escape(separator)}]*'
-        message = re.sub(pattern, f'{field}={redaction}', message)
+        message = re.sub(f'{field}=(.*?){separator}',
+                         f'{field}={redaction}{separator}',
+                         message)
     return message
