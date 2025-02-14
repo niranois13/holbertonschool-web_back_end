@@ -13,7 +13,6 @@ def filter_datum(
     filter_datum - module that returns a log message offuscated
     """
     for field in fields:
-        message = re.sub(f'{field}=(.*?){separator}',
-                         f'{field}={redaction}{separator}',
-                         message)
+        pattern = rf'{re.escape(field)}=[^ {re.escape(separator)}]*'
+        message = re.sub(pattern, f'{field}={redaction}', message)
     return message
