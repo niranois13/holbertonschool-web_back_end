@@ -5,7 +5,7 @@ Module filter_datum
 
 import re
 
-def filter_datum(fields, redaction, message, separator):
+def filter_datum(fields: list[str], redaction: str, message: str, separator: str) -> str:
     """
     filter_datum - module that returns a log message offuscated
     :param fields: list[str] - representes all fields to obfuscate
