@@ -8,7 +8,6 @@ from typing import List
 import logging
 
 
-
 def filter_datum(
         fields: List[str], redaction: str, message: str, separator: str
         ) -> str:
@@ -42,5 +41,5 @@ class RedactingFormatter(logging.Formatter):
         redacted_message = filter_datum(
             self.fields, self.REDACTION, record.getMessage(), self.SEPARATOR)
         record.msg = redacted_message
-        
+
         return super().format(record)
