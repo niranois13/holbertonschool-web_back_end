@@ -5,6 +5,8 @@ Module filter_datum
 
 import re
 from typing import List
+import logging
+
 
 
 def filter_datum(
@@ -22,3 +24,23 @@ def filter_datum(
                          f'{field}={redaction}{separator}',
                          message)
     return message
+
+
+class RedactingFormatter(logging.Formatter):
+    """ Redacting Formatter class
+        """
+
+    REDACTION = "***"
+    FORMAT = "[HOLBERTON] %(name)s %(levelname)s %(asctime)-15s: %(message)s"
+    SEPARATOR = ";"
+
+    def __init__(self):
+        super(RedactingFormatter, self).__init__(self.FORMAT)
+
+    def format(self, record: logging.LogRecord) -> str:
+        """ Filters values in incoming logs"""
+        redacted_message = filter_datum(
+            self.fields, self.REDACTION, record.getMessage(), self.SEPARATOR)
+        record.msg = redacted_message
+        
+        return super().format(record)
