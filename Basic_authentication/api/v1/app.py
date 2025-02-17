@@ -22,6 +22,30 @@ if auth_type == "auth":
 
 @app.before_request
 def auth_handler():
+    """
+    Authentication handler executed before each request.
+
+    This function performs the following checks:
+    1. If auth is None, no authentication is required.
+    2. Checks if the request path requires authentication.
+    3. Verifies the presence of a valid authorization header.
+    4. Confirms the existence of a current user.
+
+    The function will abort the request with appropriate HTTP status codes
+    if authentication fails at any step.
+
+    Excluded paths:
+    - '/api/v1/status/'
+    - '/api/v1/unauthorized/'
+    - '/api/v1/forbidden/'
+
+    Raises:
+        401 Unauthorized: If the authorization header is missing or invalid.
+        403 Forbidden: If there is no current user associated with the request.
+
+    Returns:
+        None
+    """
     if auth is None:
         return
 
