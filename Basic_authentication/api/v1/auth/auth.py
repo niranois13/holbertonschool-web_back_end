@@ -18,7 +18,6 @@ class Auth:
         """
         return False
 
-
     def authorization_header(self, request=None) -> str:
         """
         authorization_header - returns None
@@ -26,7 +25,6 @@ class Auth:
         Returns: None
         """
         return None
-
 
     def current_user(self, request=None) -> str:
         """
