@@ -13,8 +13,16 @@ class Auth:
         """
         require_auth - checks if an API route needs authentication
         :param path: str - routes to be checked for authentication need
-        :param excluded_path: List[str] - routes that don't need authentication
-        Returns: False
+        :param excluded_paths: List[str] - route that don't need authentication
+        Returns:
+          - bool: True if authentication is needed, False otherwise
+
+        Conditions:
+          - Returns True if path is None
+          - Returns True if excluded_paths is None or empty
+          - Normalizes path by ensuring it ends with '/'
+          - Returns False if path is found in excluded_paths
+          - Returns True otherwise
         """
         if path is None:
             return True
