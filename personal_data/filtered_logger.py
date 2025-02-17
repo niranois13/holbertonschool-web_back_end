@@ -79,3 +79,27 @@ class RedactingFormatter(logging.Formatter):
         record.msg = redacted_message
 
         return super().format(record)
+
+
+def main():
+    """
+    main - entry point, obtains a database connection through get_db(),
+            retrieves all rows in the 'users' table,
+            display each row, filtered"""
+    database = get_db()
+    cursor = database.cursor()
+    cursor.execute("SELECT * FROM users;")
+    fields = [i[0] for i in cursor.description]
+
+    log = get_logger()
+
+    for row in cursor:
+        str_row = ''.join(f'{f}={str(r)}; ' for r, f in zip(row, fields))
+        log.info(str_row.strip())
+
+    cursor.close()
+    database.close()
+
+
+if __name__ == "__main__":
+    main()
