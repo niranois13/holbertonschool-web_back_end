@@ -85,7 +85,8 @@ def main():
     """
     main - entry point, obtains a database connection through get_db(),
             retrieves all rows in the 'users' table,
-            display each row, filtered"""
+            display each row, filtered
+    """
     database = get_db()
     cursor = database.cursor()
     cursor.execute("SELECT * FROM users;")
