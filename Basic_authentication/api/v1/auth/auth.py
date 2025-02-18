@@ -4,7 +4,6 @@
 from flask import request
 from typing import List
 
-
 class Auth:
     """
     Auth - base class to handle authentication
