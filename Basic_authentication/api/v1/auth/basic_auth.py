@@ -87,3 +87,21 @@ class BasicAuth(Auth):
                     return user
         except Exception:
             return None
+
+    def current_user(self, request=None) -> TypeVar('User'):
+        """
+        Function that retrieves a secured User instance from a request
+        :param request: the request fetching a User instance
+        Returns:
+          - The User instance
+          - None otherwise
+        """
+        try:
+            auth_header = self.authorization_header(request)
+            encoded_auth_header = self.extract_base64_authorization_header(auth_header)
+            decoded_auth_header = self.decode_base64_authorization_header(encoded_auth_header)
+            email, pwd = self.extract_user_credentials(decoded_auth_header)
+            user = self.user_object_from_credentials(email, pwd)
+            return User
+        except Exception:
+            return None
