@@ -20,7 +20,7 @@ class Auth:
           - Returns True if path is None
           - Returns True if excluded_paths is None or empty
           - Normalizes path by ensuring it ends with '/'
-          - Returns False if path is found in excluded_paths
+          - Returns False if path is found in excluded_paths(including wildcard *)
           - Returns True otherwise
         """
         if path is None:
@@ -31,8 +31,12 @@ class Auth:
         if not path.endswith('/'):
             path += '/'
 
-        if path in excluded_paths:
-            return False
+        for excluded in excluded_paths:
+            if excluded.endswith('*'):
+                if path.startswith(excluded[:-1]):
+                    return False
+            elif path == excluded:
+                return False
 
         return True
 
