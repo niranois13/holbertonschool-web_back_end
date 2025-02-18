@@ -6,6 +6,7 @@ from api.v1.auth.auth import Auth
 import base64
 from typing import TypeVar
 from models.user import User
+from flask import request
 
 
 class BasicAuth(Auth):
@@ -96,12 +97,28 @@ class BasicAuth(Auth):
           - The User instance
           - None otherwise
         """
-        try:
-            auth_header = self.authorization_header(request)
-            encoded_auth_header = self.extract_base64_authorization_header(auth_header)
-            decoded_auth_header = self.decode_base64_authorization_header(encoded_auth_header)
-            email, pwd = self.extract_user_credentials(decoded_auth_header)
-            user = self.user_object_from_credentials(email, pwd)
-            return User
-        except Exception:
+        auth_header = self.authorization_header(request)
+        if not auth_header:
             return None
+
+        encoded_auth_header = self.extract_base64_authorization_header(
+            auth_header
+            )
+        if not encoded_auth_header:
+            return None
+
+        decoded_auth_header = self.decode_base64_authorization_header(
+            encoded_auth_header
+            )
+        if not decoded_auth_header:
+            return None
+
+        email, pwd = self.extract_user_credentials(decoded_auth_header)
+        if not email or not pwd:
+            return None
+
+        user = self.user_object_from_credentials(email, pwd)
+        if user:
+            return user
+
+        return None
