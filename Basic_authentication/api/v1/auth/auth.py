@@ -4,6 +4,7 @@
 from flask import request
 from typing import List
 
+
 class Auth:
     """
     Auth - base class to handle authentication
@@ -20,7 +21,7 @@ class Auth:
           - Returns True if path is None
           - Returns True if excluded_paths is None or empty
           - Normalizes path by ensuring it ends with '/'
-          - Returns False if path is found in excluded_paths(including wildcard *)
+          - Returns False if path is found in excluded_paths
           - Returns True otherwise
         """
         if path is None:
