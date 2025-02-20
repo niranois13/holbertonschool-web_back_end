@@ -21,24 +21,24 @@ def login():
     password = request.form.get('password')
 
     if not email:
-        return jsonify({ "error": "email missing" }), 400
+        return jsonify({"error": "email missing"}), 400
     if not password:
-        return jsonify({ "error": "password missing" }), 400
+        return jsonify({"error": "password missing"}), 400
 
     users = User.search({'email': email})
     if not users:
-        return jsonify({ "error": "no user found for this email" }), 404
+        return jsonify({"error": "no user found for this email"}), 404
 
     for user in users:
         if not user.is_valid_password(password):
-            return jsonify({ "error": "wrong password" }), 401
-        else:
-            from api.v1.app import auth
-            current_user = users[0]
-            session_id = auth.create_session(current_user.id)
-            SESSION_NAME = getenv('SESSION_NAME')
+            return jsonify({"error": "wrong password"}), 401
 
-            response = jsonify(user.to_json())
-            response.set_cookie(SESSION_NAME, session_id)
+    from api.v1.app import auth
+    current_user = users[0]
+    session_id = auth.create_session(current_user.id)
+    SESSION_NAME = getenv('SESSION_NAME')
 
-            return response
+    response = jsonify(user.to_json())
+    response.set_cookie(SESSION_NAME, session_id)
+
+    return response
