@@ -3,7 +3,6 @@
 Authentication views
 """
 from api.v1.views import app_views
-from api.v1.auth import auth
 from typing import TypeVar
 from os import getenv
 from flask import request, jsonify, abort
@@ -53,6 +52,7 @@ def logout():
       - empty dict on success, False otherwise
     """
     try:
+        from api.v1.auth import auth
         auth.destroy_session(request)
         return jsonify({}), 200
     except Exception:

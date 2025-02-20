@@ -73,7 +73,6 @@ class SessionAuth(Auth):
         try:
             session_id = self.session_cookie(request)
             del self.user_id_by_session_id[session_id]
+            return True
         except Exception:
             return False
-
-        return True
