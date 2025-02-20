@@ -50,7 +50,7 @@ def logout():
     """
     Function that handles user logout
     Returns:
-      - 200 on completion, 404 otherwise
+      - empty dict on success, False otherwise
     """
     try:
         auth.destroy_session(request)
