@@ -51,10 +51,11 @@ def logout():
     Returns:
       - empty dict on success, False otherwise
     """
-    try:
-        from api.v1.auth import auth
-        auth.destroy_session(request)
-        return jsonify({}), 200
-    except Exception:
-        abort(404)
-        return False
+    from api.v1.auth import auth
+
+    removed_session = auth.destroy_session(request)
+
+    if not removed_session:
+        return False, abort(404)
+
+    return jsonify({}), 200
