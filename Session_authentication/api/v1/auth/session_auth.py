@@ -4,6 +4,7 @@ Module of SessionAuth class
 """
 from api.v1.auth.auth import Auth
 from uuid import uuid4
+from models.user import User
 
 
 class SessionAuth(Auth):
@@ -43,5 +44,19 @@ class SessionAuth(Auth):
         """
         try:
             return SessionAuth.user_id_by_session_id.get(session_id)
+        except Exception:
+            return None
+
+    def current_user(self, request=None):
+        """
+        Function that returns a User id based on cookie value
+        :param request: the Flask request object
+        Returns:
+          - user_id if retrieved, None otherwise
+        """
+        try:
+            session_id = self.session_cookie(request)
+            user_id = self.user_id_for_session_id(session_id)
+            return User.get(user_id)
         except Exception:
             return None
