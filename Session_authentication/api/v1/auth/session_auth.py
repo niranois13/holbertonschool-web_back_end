@@ -27,13 +27,12 @@ class SessionAuth(Auth):
         Returns:
           - SessionID (uuid4) if generated, None otherwise
         """
-        if user_id is None or not isinstance(user_id, str):
+        try:
+            session_id = str(uuid4())
+            SessionAuth.user_id_by_session_id.update({session_id: user_id})
+            return session_id
+        except Exception:
             return None
-
-        session_id = str(uuid4())
-        SessionAuth.user_id_by_session_id.update({session_id: user_id})
-
-        return session_id
 
     def user_id_for_session_id(self, session_id: str = None) -> str:
         """
