@@ -3,9 +3,10 @@
 Authentication views
 """
 from api.v1.views import app_views
+from api.v1.auth import auth
 from typing import TypeVar
 from os import getenv
-from flask import request, jsonify
+from flask import request, jsonify, abort
 from models.user import User
 
 
@@ -13,7 +14,6 @@ from models.user import User
 def login():
     """
     Function that handles user login
-    :param request: Flask request object
     Returns:
         - User instance
     """
@@ -42,3 +42,19 @@ def login():
     response.set_cookie(SESSION_NAME, session_id)
 
     return response
+
+
+@app_views.route('/auth_session/logout', methods=['DELETE'],
+                 strict_slashes=False)
+def logout():
+    """
+    Function that handles user logout
+    Returns:
+      - 200 on completion, 404 otherwise
+    """
+    try:
+        auth.destroy_session(request)
+        return jsonify({}), 200
+    except Exception:
+        abort(404)
+        return False
