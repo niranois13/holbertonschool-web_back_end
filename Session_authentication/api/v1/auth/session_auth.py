@@ -34,3 +34,15 @@ class SessionAuth(Auth):
         SessionAuth.user_id_by_session_id.update({session_id: user_id})
 
         return session_id
+
+    def user_id_for_session_id(self, session_id: str = None) -> str:
+        """
+        Function that returns a User id based on session_id
+        :param session_id: uuid4 - ID of the session we want the User ID from
+        Returns:
+          - user_id if retrieves, None otherwise
+        """
+        try:
+            return SessionAuth.user_id_by_session_id.get(session_id)
+        except Exception:
+            return None
