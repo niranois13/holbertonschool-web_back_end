@@ -45,22 +45,28 @@ class SessionExpAuth(SessionAuth):
         Returns:
           - user_id, None otherwise
         """
-        try:
-            session_dict = SessionExpAuth.user_id_by_session_id.get(
-                session_id, None
-                )
+        if not session_id:
+            return None
 
-            if self.session_duration <= 0:
-                return session_dict.get('user_id')
+        session_dict = SessionExpAuth.user_id_by_session_id.get(
+            session_id, None
+            )
 
-            creation_time = session_dict.get('created_at')
-            session_time = timedelta(seconds=self.session_duration)
-            expiration_date = creation_time + session_time
+        if not session_dict:
+            return None
 
-            if expiration_date < datetime.now():
-                return None
-
+        if not session_dict.get('created_at'):
+            return None
+        
+        if self.session_duration <= 0:
             return session_dict.get('user_id')
 
-        except Exception:
+        creation_time = session_dict.get('created_at')
+        session_time = timedelta(seconds=self.session_duration)
+        expiration_date = creation_time + session_time
+
+        if expiration_date < datetime.now():
             return None
+
+        return session_dict.get('user_id')
+
