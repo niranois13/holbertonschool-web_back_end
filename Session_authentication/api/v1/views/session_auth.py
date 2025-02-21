@@ -51,7 +51,7 @@ def logout():
     Returns:
       - empty dict on success, False otherwise
     """
-    from api.v1.auth import auth
+    from api.v1.app import auth
 
     removed_session = auth.destroy_session(request)
 
