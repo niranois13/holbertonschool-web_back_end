@@ -70,7 +70,7 @@ class SessionAuth(Auth):
           - True, on deletion
           - False, otherwise
           """
-        if not request:
+        if request is None:
             return False
 
         session_id = self.session_cookie(request)
