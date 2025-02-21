@@ -23,14 +23,15 @@ class SessionExpAuth(SessionAuth):
     def create_session(self, user_id=None):
         """
         Creates a user session by associating a user_id and a SessionID
-        :param user_id: str - the ID of the user this function creates a sessionID for
+        :param user_id: str - the ID of the user this function
+                            creates a sessionID for
         """
         session_id = super().create_session(user_id)
 
         if session_id is None:
             return None
 
-        SessionAuth.user_id_by_session_id[session_id] = {
+        SessionExpAuth.user_id_by_session_id[session_id] = {
             "user_id": user_id,
             "created_at": datetime.now()
             }
