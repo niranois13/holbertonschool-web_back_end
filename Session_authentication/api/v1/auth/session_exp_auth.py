@@ -3,7 +3,7 @@
 Module of SessionExpAuth class
 """
 from datetime import datetime, timedelta
-from api.v1.auth.auth import SessionAuth
+from api.v1.auth.session_auth import SessionAuth
 from os import getenv
 
 
@@ -30,7 +30,7 @@ class SessionExpAuth(SessionAuth):
         if session_id is None:
             return None
 
-        SessionExpAuth.user_id_by_session_id[session_id] = {
+        SessionAuth.user_id_by_session_id[session_id] = {
             "user_id": user_id,
             "created_at": datetime.now()
             }
@@ -47,14 +47,12 @@ class SessionExpAuth(SessionAuth):
         if session_id is None:
             return None
 
-        session_dict = SessionExpAuth.user_id_by_session_id.get(
-            session_id, None
-            )
+        session_dict = SessionExpAuth.user_id_by_session_id.get(session_id)
 
         if session_dict is None:
             return None
 
-        if not 'created_at' in session_dict:
+        if 'created_at' not in session_dict:
             return None
 
         if self.session_duration <= 0:
