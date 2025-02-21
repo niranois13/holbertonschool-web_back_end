@@ -17,7 +17,7 @@ class SessionExpAuth(SessionAuth):
         """
         try:
             self.session_duration = int(getenv('SESSION_DURATION', 0))
-        except Exception:
+        except ValueError:
             self.session_duration = 0
 
     def create_session(self, user_id=None):
@@ -25,18 +25,17 @@ class SessionExpAuth(SessionAuth):
         Creates a user session by associating a user_id and a SessionID
         :param user_id: str - the ID of the user this function creates a sessionID for
         """
-        try:
-            session_id = super().create_session(user_id)
+        session_id = super().create_session(user_id)
 
-            SessionExpAuth.user_id_by_session_id = {
+        if session_id is None:
+            return None
+
+        SessionExpAuth.user_id_by_session_id = {
             "user_id": user_id,
             "created_at": datetime.now()
             }
 
-            return session_id
-
-        except Exception:
-            return None
+        return session_id
 
     def user_id_for_session_id(self, session_id=None):
         """
@@ -57,7 +56,7 @@ class SessionExpAuth(SessionAuth):
 
         if not session_dict.get('created_at'):
             return None
-        
+
         if self.session_duration <= 0:
             return session_dict.get('user_id')
 
