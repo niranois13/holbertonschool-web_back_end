@@ -44,17 +44,17 @@ class SessionExpAuth(SessionAuth):
         Returns:
           - user_id, None otherwise
         """
-        if not session_id:
+        if session_id is None:
             return None
 
         session_dict = SessionExpAuth.user_id_by_session_id.get(
             session_id, None
             )
 
-        if not session_dict:
+        if session_dict is None:
             return None
 
-        if not session_dict.get('created_at'):
+        if not 'created_at' in session_dict:
             return None
 
         if self.session_duration <= 0:
@@ -68,4 +68,3 @@ class SessionExpAuth(SessionAuth):
             return None
 
         return session_dict.get('user_id')
-
