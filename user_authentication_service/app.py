@@ -13,13 +13,18 @@ AUTH = Auth()
 
 @app.route('/', methods=['GET'])
 def hello_world() -> str:
+    """
+    Function that greats the user, mainly to check if service is working
+    """
     msg = {"message": "Bienvenue"}
     return jsonify(msg)
 
 
 @app.route('/users', methods=['POST'])
 def register_user() -> str:
-
+    """
+    Endpoint that handles registration
+    """
     try:
         email = request.form['email']
         password = request.form['password']
