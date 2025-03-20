@@ -32,33 +32,6 @@ def call_history(method: Callable) -> Callable:
     return wrapper
 
 
-def replay(method: Callable) -> None:
-    """
-    Display the history of calls of a function.
-
-    Args:
-        method: The function whose history to display.
-    """
-    redis_instance = method.__self__._redis
-    method_name = method.__qualname__
-
-    input_key = f"{method_name}:inputs"
-    output_key = f"{method_name}:outputs"
-
-    inputs = redis_instance.lrange(input_key, 0, -1)
-    outputs = redis_instance.lrange(output_key, 0, -1)
-
-    call_count = redis_instance.get(method_name)
-    call_count_int = int(call_count.decode("utf-8")) if call_count else 0
-
-    print(f"{method_name} was called {call_count_int} times:")
-
-    for input_args, output in zip(inputs, outputs):
-        input_str = input_args.decode("utf-8")
-        output_str = output.decode("utf-8")
-        print(f"{method_name}(*{input_str}) -> {output_str}")
-
-
 class Cache:
     def __init__(self):
         """Initialize a Cache instance and flush the database"""
@@ -95,3 +68,30 @@ class Cache:
     def get_int(self, key: str) -> Optional[int]:
         """Retrieve an integer from Redis."""
         return self.get(key, int)
+
+
+def replay(method: Callable) -> None:
+    """
+    Display the history of calls of a function.
+
+    Args:
+        method: The function whose history to display.
+    """
+    redis_instance = method.__self__._redis
+    method_name = method.__qualname__
+
+    input_key = f"{method_name}:inputs"
+    output_key = f"{method_name}:outputs"
+
+    inputs = redis_instance.lrange(input_key, 0, -1)
+    outputs = redis_instance.lrange(output_key, 0, -1)
+
+    call_count = redis_instance.get(method_name)
+    call_count_int = int(call_count.decode("utf-8")) if call_count else 0
+
+    print(f"{method_name} was called {call_count_int} times:")
+
+    for input_args, output in zip(inputs, outputs):
+        input_str = input_args.decode("utf-8")
+        output_str = output.decode("utf-8")
+        print(f"{method_name}(*{input_str}) -> {output_str}")
