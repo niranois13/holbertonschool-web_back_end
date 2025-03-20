@@ -32,33 +32,6 @@ def call_history(method: Callable) -> Callable:
     return wrapper
 
 
-def replay(self, method: Callable):
-    """Display the history of calls of a particular function."""
-    r = redis.Redis()
-    m_name = method.__qualname__
-    n_calls = r.get(m_name)
-    try:
-        n_calls = n_calls.decode('utf-8')
-    except Exception:
-        n_calls = 0
-    print(f'{m_name} was called {n_calls} times:')
-
-    ins = r.lrange(m_name + ":inputs", 0, -1)
-    outs = r.lrange(m_name + ":outputs", 0, -1)
-
-    for i, o in zip(ins, outs):
-        try:
-            i = i.decode('utf-8')
-        except Exception:
-            i = ""
-        try:
-            o = o.decode('utf-8')
-        except Exception:
-            o = ""
-
-        print(f'{m_name}(*{i}) -> {o}')
-
-
 class Cache:
     def __init__(self):
         """Initialize a Cache instance and flush the database"""
@@ -95,3 +68,29 @@ class Cache:
     def get_int(self, key: str) -> Optional[int]:
         """Retrieve an integer from Redis."""
         return self.get(key, int)
+
+    def replay(self, method: Callable):
+        """Display the history of calls of a particular function."""
+        r = redis.Redis()
+        m_name = method.__qualname__
+        n_calls = r.get(m_name)
+        try:
+            n_calls = n_calls.decode('utf-8')
+        except Exception:
+            n_calls = 0
+        print(f'{m_name} was called {n_calls} times:')
+
+        ins = r.lrange(m_name + ":inputs", 0, -1)
+        outs = r.lrange(m_name + ":outputs", 0, -1)
+
+        for i, o in zip(ins, outs):
+            try:
+                i = i.decode('utf-8')
+            except Exception:
+                i = ""
+            try:
+                o = o.decode('utf-8')
+            except Exception:
+                o = ""
+
+            print(f'{m_name}(*{i}) -> {o}')
