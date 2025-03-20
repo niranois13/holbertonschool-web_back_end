@@ -32,6 +32,22 @@ def call_history(method: Callable) -> Callable:
     return wrapper
 
 
+def replay(self, method: Callable):
+    """Display the history of calls of a particular function."""
+    meth_name = method.__qualname__
+    input_key = f"{meth_name}:inputs"
+    output_key = f"{meth_name}:outputs"
+
+    inputs = self._redis.lrange(input_key, 0, -1)
+    outputs = self._redis.lrange(output_key, 0, -1)
+
+    print(f"{meth_name} was called {len(inputs)} times:")
+    for inp, out in zip(inputs, outputs):
+        print(
+            f"{meth_name}(*{inp.decode('utf-8')}) -> {out.decode('utf-8')}"
+            )
+
+
 class Cache:
     def __init__(self):
         """Initialize a Cache instance and flush the database"""
@@ -68,18 +84,3 @@ class Cache:
     def get_int(self, key: str) -> Optional[int]:
         """Retrieve an integer from Redis."""
         return self.get(key, int)
-
-    def replay(self, method: Callable):
-        """Display the history of calls of a particular function."""
-        meth_name = method.__qualname__
-        input_key = f"{meth_name}:inputs"
-        output_key = f"{meth_name}:outputs"
-
-        inputs = self._redis.lrange(input_key, 0, -1)
-        outputs = self._redis.lrange(output_key, 0, -1)
-
-        print(f"{meth_name} was called {len(inputs)} times:")
-        for inp, out in zip(inputs, outputs):
-            print(
-                f"{meth_name}(*{inp.decode('utf-8')}) -> {out.decode('utf-8')}"
-                )
