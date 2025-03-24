@@ -3,22 +3,35 @@ const calculateNumber = require('./0-calcul');
 const { it } = require('node:test');
 
 describe('calculateNumber', () => {
-  it('should return the sum of rounded numbers', () => {
+  it('should return the sum of floats', () => {
     assert.strictEqual(calculateNumber(1.2, 2.7), 4);
-  });
-  it('should return the correct sum of whole numbers', () => {
-    assert.strictEqual(calculateNumber(2, 3), 5);
-  });
-  it('should work with negative numbers', () => {
+    assert.strictEqual(calculateNumber(0.05, 0.05), 0);
     assert.strictEqual(calculateNumber(-1.3, -3.6), -5);
-  });
-  it('should work with one zero', () => {
+    assert.strictEqual(calculateNumber(-1.3, 2), 1);
     assert.strictEqual(calculateNumber(0, 2.2), 2);
   });
-  it('should work with two zeros', () => {
+
+  it('should return the correct sum of whole numbers', () => {
+    assert.strictEqual(calculateNumber(2, 3), 5);
     assert.strictEqual(calculateNumber(0, 0), 0);
+    assert.strictEqual(calculateNumber(1, -1), 0);
   });
-  it('shoukd work with small numbers', () => {
-    assert.strictEqual(calculateNumber(0.05, 0.05), 0);
+
+  it('should return the rounded number if only one is provided', () => {
+    assert.strictEqual(calculateNumber(2), 2);
+    assert.strictEqual(calculateNumber(2.7), 3);
+    assert.strictEqual(calculateNumber(-1.2), -1);
+  });
+
+  it('should cast non-numbers into numbers', () => {
+    assert.strictEqual(calculateNumber(true, '3'), 4);
+    assert.strictEqual(calculateNumber(1, '3.7'), 5);
+    assert.strictEqual(calculateNumber('1.2', 3.7), 5);
+  });
+
+  it('should throw typeerror if either param cannot be coerced to a number', () => {
+    assert.throws(() => calculateNumber('hello'), {
+      name: 'TypeError'
+    });
   });
 });
