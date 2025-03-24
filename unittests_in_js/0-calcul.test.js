@@ -1,6 +1,6 @@
-const assert = require('node:assert');
+const assert = require('assert');
 const calculateNumber = require('./0-calcul');
-const { it } = require('node:test');
+const { describe, it } = require('node:test');
 
 describe('calculateNumber', () => {
   it('should return the sum of floats', () => {
@@ -29,7 +29,7 @@ describe('calculateNumber', () => {
     assert.strictEqual(calculateNumber('1.2', 3.7), 5);
   });
 
-  it('should throw typeerror if either param cannot be coerced to a number', () => {
+  it('should throw typeerror if param is NaN', () => {
     assert.throws(() => calculateNumber('hello'), {
       name: 'TypeError'
     });
