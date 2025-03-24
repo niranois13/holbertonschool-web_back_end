@@ -1,0 +1,13 @@
+{
+  "name": "unittests_in_js",
+  "version": "1.0.0",
+  "description": "![unittests](https://i.imgur.com/5T79Gca.png)",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs"
+}
