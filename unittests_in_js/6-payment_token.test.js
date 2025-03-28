@@ -6,7 +6,7 @@ const { assert } = require("chai");
 describe('getPaymentTokenFromAPI', function () {
   it('getPaymentTokenFromAPI(true) should return a resolved promise', (done) => {
     getPaymentTokenFromAPI(true).then((response) => {
-      assert.deepStrictEqual(getPaymentTokenFromAPI(true), {data: 'Successful response from the API' });
+      assert.deepStrictEqual(response, {data: 'Successful response from the API' });
       done();
     }).catch(done);
   });
