@@ -1,8 +1,8 @@
 const express = require('express');
-app.use(express.json());
 
 const app = express();
 const port = 7865;
+app.use(express.json());
 
 app.get('/', (req, res) => {
   res.end('Welcome to the payment system');
