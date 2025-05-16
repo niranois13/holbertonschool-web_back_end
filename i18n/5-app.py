@@ -24,6 +24,7 @@ users = {
 
 
 def get_locale():
+    """ Determines best match for supported languages """
     locale = request.args.get('locale')
     if locale and locale in app.config['LANGUAGES']:
         return locale
@@ -31,6 +32,7 @@ def get_locale():
 
 
 def get_user():
+    """Fakes a login based on a list"""
     try:
         user_id = int(request.args.get('login_as'))
         return users.get(user_id)

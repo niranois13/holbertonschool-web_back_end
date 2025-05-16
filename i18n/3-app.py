@@ -15,6 +15,7 @@ app.config.from_object(Config)
 
 babel = Babel()
 
+
 def _(message_id, **variables):
     """
     Mark a string for translation.
@@ -30,6 +31,7 @@ def _(message_id, **variables):
 
 
 def get_locale():
+    """ Determines best match for supported languages """
     return request.accept_languages.best_match(app.config['LANGUAGES'])
 
 

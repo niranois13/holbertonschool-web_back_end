@@ -27,6 +27,7 @@ users = {
 
 
 def get_locale():
+    """ Determines best match for supported languages """
     locale = request.args.get('locale')
     if locale and locale in app.config['LANGUAGES']:
         return locale
@@ -34,6 +35,7 @@ def get_locale():
 
 
 def get_user():
+    """Fakes user login"""
     try:
         user_id = int(request.args.get('login_as'))
         return users.get(user_id)
@@ -42,6 +44,7 @@ def get_user():
 
 
 def get_timezone():
+    """ Determines best match for timezone """
     tz_param = request.args.get('timezone')
     if tz_param:
         try:
