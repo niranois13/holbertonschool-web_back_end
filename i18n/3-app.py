@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 "3-app.py"
 from flask import Flask, render_template, request
-from flask_babel import Babel, _
+from flask_babel import Babel, gettext as flask_gettext
 
 
 class Config:
@@ -14,6 +14,19 @@ app = Flask(__name__)
 app.config.from_object(Config)
 
 babel = Babel()
+
+def _(message_id, **variables):
+    """
+    Mark a string for translation.
+
+    Args:
+        message_id (str): The message ID to translate.
+        **variables: Optional named variables for string formatting.
+
+    Returns:
+        str: The translated string.
+    """
+    return flask_gettext(message_id, **variables)
 
 
 def get_locale():
