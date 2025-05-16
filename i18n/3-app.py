@@ -25,6 +25,7 @@ babel.init_app(app, locale_selector=get_locale)
 
 @app.route('/')
 def index():
+    """Renders index template"""
     return render_template('3-index.html')
 
 

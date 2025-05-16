@@ -69,6 +69,7 @@ def before_request():
 
 @app.route('/')
 def index():
+    """Renders index template"""
     return render_template('6-index.html')
 
 
